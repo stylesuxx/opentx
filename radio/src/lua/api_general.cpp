@@ -1575,6 +1575,35 @@ static int luaMultiBuffer(lua_State * L)
 #endif
 
 /*luadoc
+@function serialSet(port, baudrate, [wordlenght], [parity], [stopbits])
+@param port:                  0 sur AUX, 1 for AUX2
+@param baudrate:              desired baudrate (ie 9600, 115200,..)
+@param wordlenght (optional): 0x0 for 8 bits, 0x1000 for 9 bits
+@param parity (optional):     0x0 for no parity, 0x0400 for even, 0x0600 for odd
+@param stopbits (optional):   0x0 for 1, 0x1000 for 0.5, 0x2000 for 2, 0x3000 for 1.5
+
+Set serial port communication parrameters.
+
+@status current Introduced in 2.3.8
+*/
+
+static int luaSerialSet(lua_State * L)
+{
+  unsigned int port = luaL_checkunsigned(L, 1);
+  int baurate = luaL_checkinteger(L, 2);
+  unsigned int wordlenght = luaL_optunsigned(L, 3, USART_WordLength_8b);
+  unsigned int parity = luaL_optunsigned(L, 4, USART_Parity_No);
+  unsigned int stopbits = luaL_optunsigned(L, 5, USART_StopBits_1);
+
+  if (port == 0)
+    auxSerialSetup(baurate, false, wordlenght, parity, stopbits);
+  else
+    aux2SerialSetup(baurate, false, wordlenght, parity, stopbits);
+
+  return 0;
+}
+
+/*luadoc
 @function serialWrite(str)
 @param str (string) String to be written to the serial port.
 
@@ -1719,6 +1748,7 @@ const luaL_Reg opentxLib[] = {
 #endif
   { "serialWrite", luaSerialWrite },
   { "serialRead", luaSerialRead },
+  { "serialSet", luaSerialSet },
   { nullptr, nullptr }  /* sentinel */
 };
 

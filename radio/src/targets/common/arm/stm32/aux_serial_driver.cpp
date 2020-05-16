@@ -26,7 +26,7 @@ uint8_t auxSerialMode = 0;
 Fifo<uint8_t, 512> auxSerialTxFifo;
 AuxSerialRxFifo auxSerialRxFifo __DMA (AUX_SERIAL_DMA_Stream_RX);
 
-void auxSerialSetup(unsigned int baudrate, bool dma)
+void auxSerialSetup(unsigned int baudrate, bool dma, uint16_t wordlenght = USART_WordLength_8b, uint16_t parity = USART_Parity_No, uint16_t stopbits = USART_StopBits_1)
 {
   USART_InitTypeDef USART_InitStructure;
   GPIO_InitTypeDef GPIO_InitStructure;
@@ -49,9 +49,9 @@ void auxSerialSetup(unsigned int baudrate, bool dma)
 #endif
 
   USART_InitStructure.USART_BaudRate = baudrate;
-  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-  USART_InitStructure.USART_StopBits = USART_StopBits_1;
-  USART_InitStructure.USART_Parity = USART_Parity_No;
+  USART_InitStructure.USART_WordLength = wordlenght;
+  USART_InitStructure.USART_StopBits = stopbits;
+  USART_InitStructure.USART_Parity = parity;
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
   USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
   USART_Init(AUX_SERIAL_USART, &USART_InitStructure);
@@ -217,7 +217,7 @@ uint8_t aux2SerialMode = 0;
 Fifo<uint8_t, 512> aux2SerialTxFifo;
 AuxSerialRxFifo aux2SerialRxFifo __DMA (AUX2_SERIAL_DMA_Stream_RX);
 
-void aux2SerialSetup(unsigned int baudrate, bool dma)
+void aux2SerialSetup(unsigned int baudrate, bool dma, uint16_t wordlenght = USART_WordLength_8b, uint16_t parity = USART_Parity_No, uint16_t stopbits = USART_StopBits_1)
 {
   USART_InitTypeDef USART_InitStructure;
   GPIO_InitTypeDef GPIO_InitStructure;
@@ -240,9 +240,9 @@ void aux2SerialSetup(unsigned int baudrate, bool dma)
 #endif
 
   USART_InitStructure.USART_BaudRate = baudrate;
-  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-  USART_InitStructure.USART_StopBits = USART_StopBits_1;
-  USART_InitStructure.USART_Parity = USART_Parity_No;
+  USART_InitStructure.USART_WordLength = wordlenght;
+  USART_InitStructure.USART_StopBits = stopbits;
+  USART_InitStructure.USART_Parity = parity;
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
   USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
   USART_Init(AUX2_SERIAL_USART, &USART_InitStructure);

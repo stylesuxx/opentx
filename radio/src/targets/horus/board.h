@@ -620,6 +620,7 @@ void sportUpdatePowerInit();
 #define DEBUG_BAUDRATE                  115200
 extern uint8_t auxSerialMode;
 void auxSerialInit(unsigned int mode, unsigned int protocol);
+void auxSerialSetup(unsigned int baudrate, bool dma, uint16_t wordlenght, uint16_t parity, uint16_t stopbits);
 void auxSerialPutc(char c);
 #define auxSerialTelemetryInit(protocol) auxSerialInit(UART_MODE_TELEMETRY, protocol)
 void auxSerialSbusInit();
@@ -639,6 +640,7 @@ void auxSerialPowerOff();
 #if defined(AUX2_SERIAL)
 extern uint8_t aux2SerialMode;
 void aux2SerialInit(unsigned int mode, unsigned int protocol);
+void aux2SerialSetup(unsigned int baudrate, bool dma, uint16_t wordlenght, uint16_t parity, uint16_t stopbits);
 void aux2SerialPutc(char c);
 #define aux2SerialTelemetryInit(protocol) aux2SerialInit(UART_MODE_TELEMETRY, protocol)
 void aux2SerialSbusInit();
