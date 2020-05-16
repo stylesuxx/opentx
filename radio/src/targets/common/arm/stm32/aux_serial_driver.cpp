@@ -208,19 +208,6 @@ extern "C" void AUX_SERIAL_USART_IRQHandler(void)
       status = AUX_SERIAL_USART->SR;
     }
   }
-#if defined(AUX2_SERIAL)
-  if (luaRxFifo && aux2SerialMode == UART_MODE_LUA) {
-    // Receive
-    uint32_t status = AUX2_SERIAL_USART->SR;
-    while (status & (USART_FLAG_RXNE | USART_FLAG_ERRORS)) {
-      uint8_t data = AUX2_SERIAL_USART->DR;
-      if (!(status & USART_FLAG_ERRORS)) {
-        luaRxFifo->push(data);
-      }
-      status = AUX2_SERIAL_USART->SR;
-    }
-  }
-#endif
 #endif
 }
 #endif
@@ -396,6 +383,19 @@ extern "C" void AUX2_SERIAL_USART_IRQHandler(void)
             cliRxFifo.push(data);
             break;
         }
+      }
+      status = AUX2_SERIAL_USART->SR;
+    }
+  }
+#endif
+#if defined(LUA) && defined(AUX2_SERIAL)
+  if (luaRxFifo && aux2SerialMode == UART_MODE_LUA) {
+    // Receive
+    uint32_t status = AUX2_SERIAL_USART->SR;
+    while (status & (USART_FLAG_RXNE | USART_FLAG_ERRORS)) {
+      uint8_t data = AUX2_SERIAL_USART->DR;
+      if (!(status & USART_FLAG_ERRORS)) {
+        luaRxFifo->push(data);
       }
       status = AUX2_SERIAL_USART->SR;
     }
