@@ -1574,6 +1574,7 @@ static int luaMultiBuffer(lua_State * L)
 }
 #endif
 
+#if defined(AUX_SERIAl) || defined(AUX2_SERIAL)
 /*luadoc
 @function serialSet(port, baudrate, [wordlenght], [parity], [stopbits])
 @param port:                  0 sur AUX, 1 for AUX2
@@ -1699,6 +1700,7 @@ static int luaSerialRead(lua_State * L)
 
   return 1;
 }
+#endif
 
 const luaL_Reg opentxLib[] = {
   { "getTime", luaGetTime },
@@ -1746,9 +1748,11 @@ const luaL_Reg opentxLib[] = {
 #if defined(MULTIMODULE)
   { "multiBuffer", luaMultiBuffer },
 #endif
+#if defined(AUX_SERIAl) || defined(AUX2_SERIAL)
   { "serialWrite", luaSerialWrite },
   { "serialRead", luaSerialRead },
   { "serialSet", luaSerialSet },
+#endif
   { nullptr, nullptr }  /* sentinel */
 };
 
