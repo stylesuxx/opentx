@@ -29,6 +29,10 @@ extern FIL g_bluetoothFile;
 #define BLUETOOTH_COMMAND_NAME         "TTM:REN-"
 #define BLUETOOTH_ANSWER_NAME          "TTM:REN"
 #define BLUETOOTH_COMMAND_BAUD_115200  "TTM:BPS-115200"
+#elif defined(RADIO_TX16S)
+#define BLUETOOTH_COMMAND_NAME         "AT+NAME="
+#define BLUETOOTH_ANSWER_OK            "OK"
+#define BLUETOOTH_COMMAND_BAUD_115200  "AT+UART=115200,0,0"
 #else
 #define BLUETOOTH_COMMAND_NAME         "AT+NAME"
 #define BLUETOOTH_ANSWER_NAME          "OK+"
@@ -384,8 +388,16 @@ void Bluetooth::wakeup(void)
     state = BLUETOOTH_STATE_FACTORY_BAUDRATE_INIT;
   }
 
+  if (state == BLUETOOTH_STATE_RESTART) {
+    bluetoothInit(BLUETOOTH_DEFAULT_BAUDRATE, false);
+    GPIO_SetBits(BT_PWR_GPIO, BT_PWR_GPIO_PIN);
+    state = BLUETOOTH_STATE_IDLE;
+  }
+
+  char * line = readline();
   if (state == BLUETOOTH_STATE_FACTORY_BAUDRATE_INIT) {
-    /*char command[32];
+    char * line = readline();
+    char command[32];
     char * cur = strAppend(command, BLUETOOTH_COMMAND_NAME);
     uint8_t len = ZLEN(g_eeGeneral.bluetoothName);
     if (len > 0) {
@@ -397,9 +409,26 @@ void Bluetooth::wakeup(void)
     else {
       cur = strAppend(cur, FLAVOUR);
     }
-    writeString(command);*/
-    writeString("AT+VERSION?");
+    writeString(command);
     state = BLUETOOTH_STATE_NAME_SENT;
+  }
+  else if (state == BLUETOOTH_STATE_NAME_SENT && (!strncmp(line, BLUETOOTH_ANSWER_OK, sizeof(BLUETOOTH_ANSWER_OK)))) {
+    if (g_eeGeneral.bluetoothMode == BLUETOOTH_TRAINER && g_model.trainerData.mode == TRAINER_MODE_MASTER_BLUETOOTH)
+      writeString("AT+ROLE=1");
+    else
+      writeString("AT+ROLE=0");
+    state = BLUETOOTH_STATE_ROLE_SENT;
+  }
+  else if (state == BLUETOOTH_STATE_ROLE_SENT && (!strncmp(line, BLUETOOTH_ANSWER_OK, sizeof(BLUETOOTH_ANSWER_OK)))) {
+    writeString(BLUETOOTH_COMMAND_BAUD_115200);
+    state = BLUETOOTH_STATE_BAUDRATE_SENT;
+  }
+  else if (state == BLUETOOTH_STATE_BAUDRATE_SENT && (!strncmp(line, BLUETOOTH_ANSWER_OK, sizeof(BLUETOOTH_ANSWER_OK)))) {
+    state = BLUETOOTH_STATE_RESTART;
+    TRACE("BT Config done, restarting HC-05");
+    GPIO_ResetBits(BT_PWR_GPIO, BT_PWR_GPIO_PIN);
+    GPIO_ResetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
+    wakeupTime = now + 10; /* 100ms */
   }
 }
 #else // PCBX9E //RADIO_TX16S
