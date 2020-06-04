@@ -55,6 +55,15 @@ void bluetoothInit(uint32_t baudrate, bool enable)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
   GPIO_Init(BT_EN_GPIO, &GPIO_InitStructure);
 
+#if defined(BT_PWR_GPIO)
+  GPIO_InitStructure.GPIO_Pin = BT_PWR_GPIO_PIN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+  GPIO_Init(BT_PWR_GPIO, &GPIO_InitStructure);
+#endif
+
 #if defined(BT_BRTS_GPIO_PIN)
   GPIO_InitStructure.GPIO_Pin = BT_BRTS_GPIO_PIN;
   GPIO_Init(BT_BRTS_GPIO, &GPIO_InitStructure);
@@ -97,10 +106,21 @@ void bluetoothInit(uint32_t baudrate, bool enable)
   btTxFifo.clear();
 #endif
 
+#if defined(RADIO_TX16S)
+  if (enable) {
+    GPIO_SetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
+    GPIO_SetBits(BT_PWR_GPIO, BT_PWR_GPIO_PIN);
+  }
+  else {
+    GPIO_ResetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
+    GPIO_ResetBits(BT_PWR_GPIO, BT_PWR_GPIO_PIN);
+  }
+#else
   if (enable)
     GPIO_ResetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
   else
     GPIO_SetBits(BT_EN_GPIO, BT_EN_GPIO_PIN);
+#endif
 }
 
 #if !defined(BOOT)

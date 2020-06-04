@@ -677,7 +677,11 @@ void gpsSendByte(uint8_t byte);
 #define BT_TX_FIFO_SIZE    64
 #define BT_RX_FIFO_SIZE    256
 #define BLUETOOTH_BOOTLOADER_BAUDRATE  230400
-#define BLUETOOTH_FACTORY_BAUDRATE     57600
+#if defined(RADIO_TX16S)
+  #define BLUETOOTH_FACTORY_BAUDRATE     38400
+#else
+  #define BLUETOOTH_FACTORY_BAUDRATE     57600
+#endif
 #define BLUETOOTH_DEFAULT_BAUDRATE     115200
 void bluetoothInit(uint32_t baudrate, bool enable);
 void bluetoothWriteWakeup();

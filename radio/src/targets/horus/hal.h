@@ -914,6 +914,11 @@
   #define BT_EN_GPIO_PIN                GPIO_Pin_10 // PG.10
 #endif
 
+#if defined(RADIO_TX16S)
+  #define BT_PWR_GPIO                   GPIOB
+  #define BT_PWR_GPIO_PIN               GPIO_Pin_0  // PB.0
+#endif
+
 // GPS
 #if defined(PCBX12S)
   #define GPS_RCC_AHB1Periph            RCC_AHB1Periph_GPIOA

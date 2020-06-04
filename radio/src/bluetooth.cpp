@@ -355,7 +355,54 @@ void Bluetooth::wakeup(void)
   }
 #endif
 }
-#else // PCBX9E
+#elif defined(RADIO_TX16S)
+void Bluetooth::wakeup(void)
+{
+  if (state != BLUETOOTH_STATE_OFF) {
+    bluetoothWriteWakeup();
+    if (bluetoothIsWriting()) {
+      return;
+    }
+  }
+
+  tmr10ms_t now = get_tmr10ms();
+
+  if (now < wakeupTime)
+    return;
+
+  wakeupTime = now + 5; /* 50ms default */
+
+  if (g_eeGeneral.bluetoothMode == BLUETOOTH_OFF || (g_eeGeneral.bluetoothMode == BLUETOOTH_TRAINER && !IS_BLUETOOTH_TRAINER())) {
+    if (state != BLUETOOTH_STATE_OFF) {
+      bluetoothDisable();
+      state = BLUETOOTH_STATE_OFF;
+    }
+    wakeupTime = now + 10; /* 100ms */
+  }
+  else if (state == BLUETOOTH_STATE_OFF) {
+    bluetoothInit(BLUETOOTH_FACTORY_BAUDRATE, true);
+    state = BLUETOOTH_STATE_FACTORY_BAUDRATE_INIT;
+  }
+
+  if (state == BLUETOOTH_STATE_FACTORY_BAUDRATE_INIT) {
+    /*char command[32];
+    char * cur = strAppend(command, BLUETOOTH_COMMAND_NAME);
+    uint8_t len = ZLEN(g_eeGeneral.bluetoothName);
+    if (len > 0) {
+      for (int i = 0; i < len; i++) {
+        *cur++ = char2lower(zchar2char(g_eeGeneral.bluetoothName[i]));
+      }
+      *cur = '\0';
+    }
+    else {
+      cur = strAppend(cur, FLAVOUR);
+    }
+    writeString(command);*/
+    writeString("AT+VERSION?");
+    state = BLUETOOTH_STATE_NAME_SENT;
+  }
+}
+#else // PCBX9E //RADIO_TX16S
 void Bluetooth::wakeup()
 {
   if (state != BLUETOOTH_STATE_OFF) {
