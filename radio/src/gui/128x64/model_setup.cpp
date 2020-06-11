@@ -1514,11 +1514,16 @@ void menuModelSetup(event_t event)
           if (multi_proto == MODULE_SUBTYPE_MULTI_FS_AFHDS2A)
             optionValue = 50 + 5 * optionValue;
 
-          lcdDrawNumber(MODEL_SETUP_2ND_COLUMN, y, optionValue, LEFT | attr);
-          if (attr) {
-            int8_t min, max;
-            getMultiOptionValues(multi_proto, min, max);
-            CHECK_INCDEC_MODELVAR(event, g_model.moduleData[moduleIdx].multi.optionValue, min, max);
+          int8_t min, max;
+          getMultiOptionValues(multi_proto, min, max);
+          if (min == 0 && max ==1) {
+            g_model.moduleData[moduleIdx].multi.optionValue = editCheckBox(g_model.moduleData[moduleIdx].multi.optionValue, MODEL_SETUP_2ND_COLUMN, y, "", attr, event);
+          }
+          else {
+            lcdDrawNumber(MODEL_SETUP_2ND_COLUMN, y, optionValue, LEFT | attr);
+            if (attr) {
+              CHECK_INCDEC_MODELVAR(event, g_model.moduleData[moduleIdx].multi.optionValue, min, max);
+            }
           }
         }
 #endif
