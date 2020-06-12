@@ -52,6 +52,7 @@ class MultiFirmwareInformation {
     bool isMultiStmFirmware() const
     {
       return boardType == FIRMWARE_MULTI_STM;
+      UNUSED(spare);
     }
 
     bool isMultiAvrFirmware() const
