@@ -241,6 +241,7 @@ ui(new Ui::GeneralSetup)
   ui->alarmwarnChkB->setChecked(!generalSettings.disableAlarmWarning); // Default is zero=checked
 
   ui->rssiPowerOffWarnChkB->setChecked(!generalSettings.disableRssiPoweroffAlarm); // Default is zero=checked
+  ui->disablePowerOnLedChkB->setChecked(generalSettings.disablePowerOnLed); // Default is zero=unchecked
 
   if (IS_FAMILY_HORUS_OR_T16(firmware->getBoard())) {
     ui->splashScreenChkB->hide();
@@ -690,6 +691,12 @@ void GeneralSetupPanel::on_alarmwarnChkB_stateChanged(int)
 void GeneralSetupPanel::on_rssiPowerOffWarnChkB_stateChanged(int)
 {
   generalSettings.disableRssiPoweroffAlarm = ui->rssiPowerOffWarnChkB->isChecked() ? 0 : 1;
+  emit modified();
+}
+
+void GeneralSetupPanel::on_disablePowerOnLedChkB_stateChanged(int)
+{
+  generalSettings.disablePowerOnLed = ui->disablePowerOnLedChkB->isChecked() ? 1 : 0;
   emit modified();
 }
 

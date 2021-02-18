@@ -92,6 +92,7 @@ enum {
   CASE_PXX2(ITEM_RADIO_SETUP_OWNER_ID)
   CASE_GPS(ITEM_RADIO_SETUP_TIMEZONE)
   ITEM_RADIO_SETUP_ADJUST_RTC,
+  ITEM_RADIO_SETUP_POWER_ON_LED,
   CASE_GPS(ITEM_RADIO_SETUP_GPSFORMAT)
   CASE_PXX1(ITEM_RADIO_SETUP_COUNTRYCODE)
   ITEM_RADIO_SETUP_LANGUAGE,
@@ -439,6 +440,13 @@ void menuRadioSetup(event_t event)
         break;
       }
 
+      case ITEM_RADIO_SETUP_POWER_ON_LED:
+      {
+        g_eeGeneral.disablePowerOnLed = editCheckBox(g_eeGeneral.disablePowerOnLed, RADIO_SETUP_2ND_COLUMN, y, STR_POWERONLED, attr, event);
+        ledBlue();
+        break;
+      }
+
 #if defined(TX_CAPACITY_MEASUREMENT)
       case ITEM_RADIO_SETUP_CAPACITY_WARNING:
         lcdDrawTextAlignedLeft(y, STR_CAPAWARNING);
@@ -530,7 +538,7 @@ void menuRadioSetup(event_t event)
         if (attr) CHECK_INCDEC_GENVAR(event, g_eeGeneral.pwrOffSpeed, -1, 2);
         break;
 #endif
-      
+
 #if defined(PXX2)
       case ITEM_RADIO_SETUP_OWNER_ID:
         editSingleName(RADIO_SETUP_2ND_COLUMN, y, STR_OWNER_ID, g_eeGeneral.ownerRegistrationID, PXX2_LEN_REGISTRATION_ID, event, attr);

@@ -101,6 +101,7 @@ class GeneralSettings {
     BeeperMode beeperMode;
     bool      disableAlarmWarning;
     bool      disableRssiPoweroffAlarm;
+    bool      disablePowerOnLed;
     unsigned int       usbMode;
     unsigned int       jackMode;
     bool      sportPower;
@@ -170,14 +171,14 @@ class GeneralSettings {
     char themeName[8+1];
     typedef uint8_t ThemeOptionData[8+1];
     ThemeOptionData themeOptionValue[5];
-    
+
     char registrationId[8+1];
     int gyroMax;
     int gyroOffset;
 
     int pwrOnSpeed;
     int pwrOffSpeed;
-    
+
     bool switchPositionAllowedTaranis(int index) const;
     bool switchSourceAllowedTaranis(int index) const;
     bool isPotAvailable(int index) const;

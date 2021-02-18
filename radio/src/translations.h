@@ -293,6 +293,7 @@ extern const char STR_INACTIVITYALARM[];
 extern const char STR_MEMORYWARNING[];
 extern const char STR_ALARMWARNING[];
 extern const char STR_RSSISHUTDOWNALARM[];
+extern const char STR_POWERONLED[];
 extern const char STR_MODEL_STILL_POWERED[];
 extern const char STR_MODEL_SHUTDOWN[];
 extern const char STR_PRESS_ENTER_TO_CONFIRM[];

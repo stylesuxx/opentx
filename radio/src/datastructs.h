@@ -802,6 +802,7 @@ PACK(struct RadioData {
   NOBACKUP(uint8_t  imperial:1);
   NOBACKUP(uint8_t  jitterFilter:1); /* 0 - active */
   NOBACKUP(uint8_t  disableRssiPoweroffAlarm:1);
+  NOBACKUP(uint8_t  disablePowerOnLed:1);
   NOBACKUP(uint8_t  USBMode:2);
   NOBACKUP(uint8_t  jackMode:2);
   NOBACKUP(uint8_t  sportUpdatePower:1);
@@ -944,7 +945,7 @@ static inline void check_struct()
   CHKSIZE(RadioData, 858);
   CHKSIZE(ModelData, 6157);
 #elif defined(PCBX7)
-  CHKSIZE(RadioData, 864);
+  CHKSIZE(RadioData, 865);
   CHKSIZE(ModelData, 6157);
 #elif defined(PCBX9E)
   CHKSIZE(RadioData, 960);
@@ -962,4 +963,4 @@ static inline void check_struct()
 
 #undef CHKSIZE
 }
-#endif /* BACKUP */ 
+#endif /* BACKUP */

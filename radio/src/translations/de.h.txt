@@ -545,6 +545,7 @@
 #define TR_POTWARNING                  TR("Potiwarnung", INDENT "Poti-Warnung")
 #define TR_TIMEZONE                    TR("Zeitzone", "GPS-Zeitzone +/-Std")
 #define TR_ADJUST_RTC                  TR("GPSzeit setzen", INDENT "Uhrzeit per GPS setzen")
+#define TR_POWERONLED                  TR("No Pwr. LED", "Power LED deaktivieren")
 #define TR_GPS                         "GPS"
 #define TR_RXCHANNELORD                TR("Kanal CH1-4", "Kanalvoreinstellung")
 #define TR_STICKS                      "Knüppel"

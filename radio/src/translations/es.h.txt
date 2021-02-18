@@ -543,6 +543,7 @@
 #define TR_POTWARNING          TR("Aviso pot", INDENT "Aviso pot")
 #define TR_TIMEZONE            TR("Zona horaria", INDENT "Zona horaria")
 #define TR_ADJUST_RTC          TR("Ajustar RTC", INDENT "Ajustar RTC")
+#define TR_POWERONLED          TR("No Pwr. LED", "Disable Power on LED")
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        TR("Rx Orden canal", "Orden habitual canales")
 #define TR_STICKS              "Sticks"

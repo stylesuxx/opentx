@@ -546,6 +546,7 @@
 #define TR_POTWARNING          TR(INDENT "Pot Warn.", INDENT "Pot Posities")
 #define TR_TIMEZONE            TR("Tijdzone", "GPS-Tijdzone +/-Std")
 #define TR_ADJUST_RTC          TR("Klok instellen", INDENT "Klok middels GPS instellen")
+#define TR_POWERONLED          TR("No Pwr. LED", "Disable Power on LED")
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        TR("Kan.Volgorde", "Kanaalvolgorde")
 #define TR_STICKS              "Sticks"

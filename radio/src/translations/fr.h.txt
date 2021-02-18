@@ -563,6 +563,7 @@
 #define TR_POTWARNING                  TR(INDENT "Alerte pot", INDENT "Pos. potentios")
 #define TR_TIMEZONE                    "Fuseau horaire"
 #define TR_ADJUST_RTC                  TR("Ajust. RTC", INDENT "Ajust. heure auto")
+#define TR_POWERONLED                  TR("No Pwr. LED", "Disable Power on LED")
 #define TR_GPS                         "GPS"
 #define TR_RXCHANNELORD                TR("Ordre voies RX","Ordre des voies préféré")
 #define TR_STICKS                      "Manches"

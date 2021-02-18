@@ -563,6 +563,7 @@
 #define TR_POTWARNING          TR("Rattvarn.", INDENT "Rattvarning")
 #define TR_TIMEZONE            TR("Tidszon", "GPS Tidszon")
 #define TR_ADJUST_RTC          TR("Adjust RTC", INDENT "Adjust RTC")
+#define TR_POWERONLED          TR("No Pwr. LED", "Disable Power on LED")
 #define TR_GPS                 "GPS"
 #define TR_RXCHANNELORD        "Kanaler i RX"
 #define TR_STICKS              "Sticks"
